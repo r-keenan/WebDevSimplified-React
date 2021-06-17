@@ -1,11 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import ToDoList from "./components/ToDoList";
 
+const LOCAL_STORAGE_KEY = "todoApp.todos";
+
 function App() {
   const [todos, setTodos] = useState([]);
   const todoNameRef = useRef();
+
+  //Since the array is empty at the end of this hook, it only calls the function once.
+  //Only setting the storedtodos if there are stored todos.
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (storedTodos) setTodos(storedTodos);
+  }, []);
+
+  //Saves the list to memory
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
 
   function handleAddToDo(e) {
     const name = todoNameRef.current.value;
