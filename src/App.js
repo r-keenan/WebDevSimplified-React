@@ -21,6 +21,14 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
+  function toggleTodo(id) {
+    //always copy a list in React before modifying a list
+    const newTodos = [...todos];
+    const todo = newTodos.find((todo) => todo.id === id);
+    todo.complete = !todo.complete;
+    setTodos(newTodos);
+  }
+
   function handleAddToDo(e) {
     const name = todoNameRef.current.value;
     if (name === "") return;
@@ -31,7 +39,7 @@ function App() {
   }
   return (
     <>
-      <ToDoList todos={todos} />
+      <ToDoList todos={todos} toggleTodo={toggleTodo} />
       <input ref={todoNameRef} type="text" />
       <button onClick={handleAddToDo}>Add Todo</button>
       <button>Clear Completed</button>
