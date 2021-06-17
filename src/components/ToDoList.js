@@ -1,9 +1,5 @@
 import React from "react";
 
-export default function ToDoList() {
-  return (
-    <div>
-      <h3>Hello World</h3>
-    </div>
-  );
+export default function ToDoList({ todos }) {
+  return <div>{todos.length}</div>;
 }
